@@ -40,7 +40,6 @@ export default Vue.extend({
 
       const api = new Api(server, accessToken, accessTokenSecret);
       this.$store.commit("setApi", api);
-      this.$router.replace(url.pathname);
     } catch (e) {
       console.error(e);
     }
