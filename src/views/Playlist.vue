@@ -43,7 +43,8 @@
               v-if="music.serialized.kind === 'youtube'"
               icon
               :href="`https://youtu.be/${music.serialized.videoId}`"
-              target="_blank">
+              target="_blank"
+            >
               <v-icon>mdi-youtube</v-icon>
             </v-btn>
             {{ music.title }}

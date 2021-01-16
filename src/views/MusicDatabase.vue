@@ -93,7 +93,6 @@ export default Vue.extend({
   async created() {
     await this.$store.dispatch("fetchMusicDb");
     this.hasFinishedLoadingMusics = true;
-    this.fetchPlaylist();
   }
 });
 </script>
