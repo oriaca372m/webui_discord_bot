@@ -17,7 +17,9 @@
 
     <v-main>
       <v-container>
-        <router-view />
+        <keep-alive include="MusicDatabase">
+          <router-view />
+        </keep-alive>
       </v-container>
     </v-main>
 

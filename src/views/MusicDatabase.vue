@@ -9,6 +9,7 @@
         label="検索"
         single-line
         hide-details
+        @keypress.enter="addFirstMusic"
       ></v-text-field>
     </v-card-title>
 
@@ -27,6 +28,10 @@
         </v-btn>
       </template>
     </v-data-table>
+
+    <v-snackbar v-model="snackbar" timeout="1000" >
+      {{ snackbarText }}
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -40,7 +45,11 @@ export default Vue.extend({
 
   data: () => ({
     search: "",
+    delayedSearch: "",
     hasFinishedLoadingMusics: false,
+    snackbar: false,
+    snackbarText: '',
+    interval: undefined,
     headers: [
       {
         text: "タイトル",
@@ -60,20 +69,33 @@ export default Vue.extend({
   }),
 
   methods: {
+    showSnackbar(text) {
+      this.snackbarText = text
+      this.snackbar = true
+    },
+
     async addMusic(music) {
       await this.$store.dispatch("requestApi", {
         method: "play-music/add-to-playlist",
         args: { music: music.serialized }
       });
+      this.showSnackbar(`${music.title} を追加しました`)
+    },
+
+    async addFirstMusic() {
+      const music = this.filteredMusics[0]
+      if (music !== undefined) {
+        this.addMusic(music)
+      }
     }
   },
 
   computed: {
     filteredMusics() {
-      if (this.search === "") {
+      if (this.delayedSearch === "") {
         return this.musics;
       }
-      return this.musicsFuse.search(this.search).map(x => x.item);
+      return this.musicsFuse.search(this.delayedSearch).map(x => x.item);
     },
 
     musicsFuse() {
@@ -92,6 +114,16 @@ export default Vue.extend({
   async created() {
     await this.$store.dispatch("fetchMusicDb");
     this.hasFinishedLoadingMusics = true;
+
+    this.interval = setInterval(() => {
+      if (this.delayedSearch !== this.search) {
+        this.delayedSearch = this.search
+      }
+    }, 1000)
+  },
+
+  destroyed() {
+    clearInterval(this.interval)
   }
 });
 </script>
