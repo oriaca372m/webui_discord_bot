@@ -29,7 +29,7 @@
       </template>
     </v-data-table>
 
-    <v-snackbar v-model="snackbar" timeout="1000" >
+    <v-snackbar v-model="snackbar" timeout="1000">
       {{ snackbarText }}
     </v-snackbar>
   </v-card>
@@ -48,7 +48,7 @@ export default Vue.extend({
     delayedSearch: "",
     hasFinishedLoadingMusics: false,
     snackbar: false,
-    snackbarText: '',
+    snackbarText: "",
     interval: undefined,
     headers: [
       {
@@ -70,8 +70,8 @@ export default Vue.extend({
 
   methods: {
     showSnackbar(text) {
-      this.snackbarText = text
-      this.snackbar = true
+      this.snackbarText = text;
+      this.snackbar = true;
     },
 
     async addMusic(music) {
@@ -79,13 +79,13 @@ export default Vue.extend({
         method: "play-music/add-to-playlist",
         args: { music: music.serialized }
       });
-      this.showSnackbar(`${music.title} を追加しました`)
+      this.showSnackbar(`${music.title} を追加しました`);
     },
 
     async addFirstMusic() {
-      const music = this.filteredMusics[0]
+      const music = this.filteredMusics[0];
       if (music !== undefined) {
-        this.addMusic(music)
+        this.addMusic(music);
       }
     }
   },
@@ -117,13 +117,13 @@ export default Vue.extend({
 
     this.interval = setInterval(() => {
       if (this.delayedSearch !== this.search) {
-        this.delayedSearch = this.search
+        this.delayedSearch = this.search;
       }
-    }, 1000)
+    }, 1000);
   },
 
   destroyed() {
-    clearInterval(this.interval)
+    clearInterval(this.interval);
   }
 });
 </script>
