@@ -37,19 +37,19 @@ export default new Vuex.Store({
 
   actions: {
     async requestApi({ state, commit }, payload: unknown) {
-      const api = state.api;
+      let res;
       try {
-        const res = (await api.request(payload)) as { error: string };
-
-        if (typeof res.error === "string") {
-          commit("setLastError", `APIがエラーを返しました: ${res.error}`);
-          throw res;
-        }
-        return res;
+        res = (await state.api.request(payload)) as { error: string };
       } catch (e) {
         commit("setLastError", "APIの呼び出し中にエラーが発生しました");
         throw e;
       }
+
+      if (typeof res.error === "string") {
+        commit("setLastError", `APIがエラーを返しました: ${res.error}`);
+        throw res.error;
+      }
+      return res;
     },
 
     async fetchMusicDb({ state, commit, dispatch }) {
