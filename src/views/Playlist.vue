@@ -25,6 +25,7 @@
     <v-simple-table>
       <thead>
         <tr>
+          <th style="width: 30px;"></th>
           <th class="text-left">タイトル</th>
           <th class="text-left">アルバム</th>
           <th class="text-left">アーティスト</th>
@@ -35,9 +36,11 @@
         tag="tbody"
         v-model="playlist"
         draggable=".item"
+        :options="{ handle: '.handle' }"
         @end="pushPlaylist"
       >
         <tr class="item" v-for="(music, i) in playlist" :key="i">
+          <td class="pr-0 handle"><v-icon>mdi-drag</v-icon></td>
           <td>
             <v-btn
               v-if="music.serialized.kind === 'youtube'"
