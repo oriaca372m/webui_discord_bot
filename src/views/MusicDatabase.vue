@@ -61,8 +61,7 @@ export default Vue.extend({
 
   methods: {
     async addMusic(music) {
-      const api = this.$store.state.api;
-      await api.request({
+      await this.$store.dispatch('requestApi', {
         method: "play-music/add-to-playlist",
         args: { music: music.serialized }
       });

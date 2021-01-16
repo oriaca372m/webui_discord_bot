@@ -95,8 +95,7 @@ export default Vue.extend({
 
   methods: {
     async playPlaylist(index) {
-      const api = this.$store.state.api;
-      await api.request({
+      await this.$store.dispatch('requestApi', {
         method: "play-music/play",
         args: { index }
       });
@@ -104,8 +103,7 @@ export default Vue.extend({
 
     async fetchPlaylist() {
       this.hasFinishedLoadingPlaylist = false;
-      const api = this.$store.state.api;
-      const playlist = await api.request({
+      const playlist = await this.$store.dispatch('requestApi', {
         method: "play-music/get-playlist",
         args: {}
       });
@@ -126,8 +124,7 @@ export default Vue.extend({
     },
 
     async pushPlaylist() {
-      const api = this.$store.state.api;
-      await api.request({
+      await this.$store.dispatch('requestApi', {
         method: "play-music/set-playlist",
         args: { musics: this.playlist.map(x => x.serialized) }
       });
@@ -158,8 +155,7 @@ export default Vue.extend({
       const playlist = JSON.parse(await readFile(file));
       console.log(playlist);
 
-      const api = this.$store.state.api;
-      await api.request({
+      await this.$store.dispatch('requestApi', {
         method: "play-music/set-playlist",
         args: { musics: playlist }
       });

@@ -25,8 +25,7 @@ export default Vue.extend({
 
   methods: {
     async send() {
-      const api = this.$store.state.api;
-      await api.request({
+      await this.$store.dispatch('requestApi', {
         method: "sendToChannel",
         args: { msg: this.messageToSend }
       });

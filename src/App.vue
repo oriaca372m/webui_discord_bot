@@ -20,6 +20,14 @@
         <router-view />
       </v-container>
     </v-main>
+
+    <v-snackbar
+      :value="$store.state.isVisibleErrorNotification"
+      @input="$store.commit('setErrorNotificationVisibility', $event)"
+      timeout="5000"
+      color="red">
+      <v-icon>mdi-alert</v-icon>{{ $store.state.lastErrorMessage }}
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -41,6 +49,7 @@ export default Vue.extend({
       const api = new Api(server, accessToken, accessTokenSecret);
       this.$store.commit("setApi", api);
     } catch (e) {
+      this.$store.commit('setLastError', "Botを見つけることができませんでした")
       console.error(e);
     }
   }
