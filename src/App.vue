@@ -25,7 +25,8 @@
       :value="$store.state.isVisibleErrorNotification"
       @input="$store.commit('setErrorNotificationVisibility', $event)"
       timeout="5000"
-      color="red">
+      color="red"
+    >
       <v-icon>mdi-alert</v-icon>{{ $store.state.lastErrorMessage }}
     </v-snackbar>
   </v-app>
@@ -49,7 +50,7 @@ export default Vue.extend({
       const api = new Api(server, accessToken, accessTokenSecret);
       this.$store.commit("setApi", api);
     } catch (e) {
-      this.$store.commit('setLastError', "Botを見つけることができませんでした")
+      this.$store.commit("setLastError", "Botを見つけることができませんでした");
       console.error(e);
     }
   }
