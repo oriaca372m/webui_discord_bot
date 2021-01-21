@@ -4,14 +4,14 @@
       <v-toolbar-title>Discord Bot Web UI</v-toolbar-title>
 
       <template v-slot:extension>
-        <v-tabs v-model="tab" align-with-title>
+        <v-tabs align-with-title>
           <v-tabs-slider color="yellow"></v-tabs-slider>
 
-          <v-tab to="/">ホーム</v-tab>
-          <v-tab to="/music_database">楽曲DB</v-tab>
-          <v-tab to="/playlist">プレイリストの編集</v-tab>
-          <v-tab to="/send_message">メッセージの送信</v-tab>
-          <v-tab to="/reply_editor">返信の編集</v-tab>
+          <v-tab :to="{ name: 'Home' }">ホーム</v-tab>
+          <v-tab :to="{ name: 'MusicDatabase' }">楽曲DB</v-tab>
+          <v-tab :to="{ name: 'Playlist' }">プレイリストの編集</v-tab>
+          <v-tab :to="{ name: 'SendMessage' }">メッセージの送信</v-tab>
+          <v-tab :to="{ name: 'ReplyEditor' }">返信の編集</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
