@@ -20,6 +20,8 @@
             :headers="headers"
             :items="filteredMusics"
             :loading="!hasFinishedLoadingMusics"
+            :footer-props="{ 'items-per-page-options': [10, 20, 30, 40, 50] }"
+            :page.sync="tablePage"
             loading-text="楽曲一覧を読み込み中です…"
           >
             <template v-slot:[`item.actions`]="{ item }">
@@ -56,6 +58,7 @@ export default Vue.extend({
     snackbar: false,
     snackbarText: "",
     interval: undefined,
+    tablePage: 1,
     headers: [
       {
         text: "タイトル",
@@ -124,6 +127,7 @@ export default Vue.extend({
     this.interval = setInterval(() => {
       if (this.delayedSearch !== this.search) {
         this.delayedSearch = this.search;
+        this.tablePage = 1;
       }
     }, 1000);
   },
