@@ -11,16 +11,15 @@
           <v-tab to="/music_database">楽曲DB</v-tab>
           <v-tab to="/playlist">プレイリストの編集</v-tab>
           <v-tab to="/send_message">メッセージの送信</v-tab>
+          <v-tab to="/reply_editor">返信の編集</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
 
     <v-main>
-      <v-container>
-        <keep-alive include="MusicDatabase">
-          <router-view />
-        </keep-alive>
-      </v-container>
+      <keep-alive include="MusicDatabase">
+        <router-view />
+      </keep-alive>
     </v-main>
 
     <v-snackbar

@@ -1,71 +1,79 @@
 <template>
-  <v-card>
-    <v-card-title>
-      プレイリスト
-      <v-spacer></v-spacer>
-      <v-btn class="mx-1" @click="fetchPlaylist">更新</v-btn>
-      <input
-        style="display: none"
-        ref="importPlaylistInput"
-        type="file"
-        accept="text/plain"
-        @change="importPlaylist"
-      />
-      <v-btn class="mx-1" @click="clickImportPlaylistInput">インポート</v-btn>
-      <v-btn
-        ref="exportPlaylistButton"
-        class="mx-1"
-        target="_blank"
-        download="playlist.txt"
-        href="#"
-        @click="exportPlaylist"
-        >エクスポート</v-btn
-      >
-    </v-card-title>
-    <v-simple-table>
-      <thead>
-        <tr>
-          <th style="width: 30px;"></th>
-          <th class="text-left">タイトル</th>
-          <th class="text-left">アルバム</th>
-          <th class="text-left">アーティスト</th>
-          <th style="width: 120px;"></th>
-        </tr>
-      </thead>
-      <draggable
-        tag="tbody"
-        v-model="playlist"
-        draggable=".item"
-        :options="{ handle: '.handle' }"
-        @end="pushPlaylist"
-      >
-        <tr class="item" v-for="(music, i) in playlist" :key="i">
-          <td class="pr-0 handle"><v-icon>mdi-drag</v-icon></td>
-          <td>
-            <v-btn
-              v-if="music.serialized.kind === 'youtube'"
-              icon
-              :href="`https://youtu.be/${music.serialized.videoId}`"
-              target="_blank"
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title>
+            プレイリスト
+            <v-spacer></v-spacer>
+            <v-btn class="mx-1" @click="fetchPlaylist">更新</v-btn>
+            <input
+              style="display: none"
+              ref="importPlaylistInput"
+              type="file"
+              accept="text/plain"
+              @change="importPlaylist"
+            />
+            <v-btn class="mx-1" @click="clickImportPlaylistInput"
+              >インポート</v-btn
             >
-              <v-icon>mdi-youtube</v-icon>
-            </v-btn>
-            {{ music.title }}
-          </td>
-          <td>{{ music.album }}</td>
-          <td>{{ music.artist }}</td>
-          <td>
-            <v-btn icon @click="playPlaylist(i)">
-              <v-icon>mdi-play</v-icon>
-            </v-btn>
-            <v-btn icon @click="removeMusic(i)">
-              <v-icon>mdi-delete</v-icon>
-            </v-btn>
-          </td>
-        </tr>
-      </draggable>
-    </v-simple-table>
-  </v-card>
+            <v-btn
+              ref="exportPlaylistButton"
+              class="mx-1"
+              target="_blank"
+              download="playlist.txt"
+              href="#"
+              @click="exportPlaylist"
+              >エクスポート</v-btn
+            >
+          </v-card-title>
+          <v-simple-table>
+            <thead>
+              <tr>
+                <th style="width: 30px;"></th>
+                <th class="text-left">タイトル</th>
+                <th class="text-left">アルバム</th>
+                <th class="text-left">アーティスト</th>
+                <th style="width: 120px;"></th>
+              </tr>
+            </thead>
+            <draggable
+              tag="tbody"
+              v-model="playlist"
+              draggable=".item"
+              :options="{ handle: '.handle' }"
+              @end="pushPlaylist"
+            >
+              <tr class="item" v-for="(music, i) in playlist" :key="i">
+                <td class="pr-0 handle"><v-icon>mdi-drag</v-icon></td>
+                <td>
+                  <v-btn
+                    v-if="music.serialized.kind === 'youtube'"
+                    icon
+                    :href="`https://youtu.be/${music.serialized.videoId}`"
+                    target="_blank"
+                  >
+                    <v-icon>mdi-youtube</v-icon>
+                  </v-btn>
+                  {{ music.title }}
+                </td>
+                <td>{{ music.album }}</td>
+                <td>{{ music.artist }}</td>
+                <td>
+                  <v-btn icon @click="playPlaylist(i)">
+                    <v-icon>mdi-play</v-icon>
+                  </v-btn>
+                  <v-btn icon @click="removeMusic(i)">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </td>
+              </tr>
+            </draggable>
+          </v-simple-table>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

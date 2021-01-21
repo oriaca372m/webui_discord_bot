@@ -1,38 +1,44 @@
 <template>
-  <v-card>
-    <v-card-title>
-      楽曲一覧
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="検索"
-        single-line
-        hide-details
-        @keypress.enter="addFirstMusic"
-      ></v-text-field>
-    </v-card-title>
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title>
+            楽曲一覧
+            <v-spacer></v-spacer>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="検索"
+              single-line
+              hide-details
+              @keypress.enter="addFirstMusic"
+            ></v-text-field>
+          </v-card-title>
 
-    <v-data-table
-      :headers="headers"
-      :items="filteredMusics"
-      :loading="!hasFinishedLoadingMusics"
-      loading-text="楽曲一覧を読み込み中です…"
-    >
-      <template v-slot:[`item.actions`]="{ item }">
-        <v-btn icon @click="playMusic(item.serialized)">
-          <v-icon>mdi-play</v-icon>
-        </v-btn>
-        <v-btn icon @click="addMusic(item)">
-          <v-icon>mdi-playlist-plus</v-icon>
-        </v-btn>
-      </template>
-    </v-data-table>
+          <v-data-table
+            :headers="headers"
+            :items="filteredMusics"
+            :loading="!hasFinishedLoadingMusics"
+            loading-text="楽曲一覧を読み込み中です…"
+          >
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-btn icon @click="playMusic(item.serialized)">
+                <v-icon>mdi-play</v-icon>
+              </v-btn>
+              <v-btn icon @click="addMusic(item)">
+                <v-icon>mdi-playlist-plus</v-icon>
+              </v-btn>
+            </template>
+          </v-data-table>
 
-    <v-snackbar v-model="snackbar" timeout="1000">
-      {{ snackbarText }}
-    </v-snackbar>
-  </v-card>
+          <v-snackbar v-model="snackbar" timeout="1000">
+            {{ snackbarText }}
+          </v-snackbar>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
