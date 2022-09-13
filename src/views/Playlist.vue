@@ -27,6 +27,20 @@
               >エクスポート</v-btn
             >
           </v-card-title>
+          <v-card-text>
+            <v-text-field
+              label="URL"
+              prepend-inner-icon="mdi-web"
+              v-model="urlToAdd"
+              outlined
+              clearable
+              @keypress.enter="addUrl"
+            >
+              <template v-slot:append-outer>
+                <v-btn @click="addUrl">追加</v-btn>
+              </template>
+            </v-text-field>
+          </v-card-text>
           <v-simple-table>
             <thead>
               <tr>
@@ -45,12 +59,14 @@
               @end="pushPlaylist"
             >
               <tr class="item" v-for="(music, i) in playlist" :key="i">
-                <td class="pr-0 handle"><v-icon>mdi-drag</v-icon></td>
+                <td class="pr-0 handle">
+                  <v-icon>mdi-drag</v-icon>
+                </td>
                 <td>
                   <v-btn
                     v-if="music.serialized.kind === 'youtube'"
                     icon
-                    :href="`https://youtu.be/${music.serialized.videoId}`"
+                    :href="music.serialized.url"
                     target="_blank"
                   >
                     <v-icon>mdi-youtube</v-icon>
@@ -71,6 +87,10 @@
             </draggable>
           </v-simple-table>
         </v-card>
+
+        <v-snackbar v-model="snackbar" timeout="1000">{{
+          snackbarText
+        }}</v-snackbar>
       </v-col>
     </v-row>
   </v-container>
@@ -101,10 +121,18 @@ export default Vue.extend({
   },
 
   data: () => ({
-    playlist: undefined
+    playlist: undefined,
+    urlToAdd: "",
+    snackbar: false,
+    snackbarText: ""
   }),
 
   methods: {
+    showSnackbar(text) {
+      this.snackbarText = text;
+      this.snackbar = true;
+    },
+
     async playPlaylist(index) {
       await this.$store.dispatch("requestApi", {
         method: "play-music/play",
@@ -171,6 +199,22 @@ export default Vue.extend({
         args: { musics: playlist }
       });
       await this.fetchPlaylist();
+    },
+
+    async addUrl() {
+      const url = this.urlToAdd;
+      const res = await this.$store.dispatch("requestApi", {
+        method: "play-music/add-url-to-playlist",
+        args: { url }
+      });
+      const addedCount = res.added.length;
+      if (addedCount === 0) {
+        this.showSnackbar(`追加出来ませんでした`);
+      } else {
+        await this.fetchPlaylist();
+        this.urlToAdd = "";
+        this.showSnackbar(`${addedCount} 件追加しました`);
+      }
     }
   },
 
